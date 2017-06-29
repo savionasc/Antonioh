@@ -1,14 +1,16 @@
 package Antonioh;
 
+import java.io.Serializable;
+
 /**
  *
  * @author savio
  */
-public class Carta {
-    String nome;
+public class Carta implements Serializable {
+    private String nome;
     protected enum tipoC{MONSTRO, MAGICA, ARMADILHA};
     protected tipoC tipo;
-    String efeito;    
+    private String efeito;    
 
     public String getNome() {
         return nome;

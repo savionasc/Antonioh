@@ -1,22 +1,24 @@
 package Antonioh;
 
+import java.io.Serializable;
+
 /**
  *
  * @author savio
  */
-public class CartaMonstro extends Carta{
-    int ataque = 0;
-    int defesa = 0;
-    boolean atk = true;
+public class CartaMonstro extends Carta implements Serializable{
+    private int ataque = 0;
+    private int defesa = 0;
+    private boolean atk = true;
     
     public CartaMonstro() {
-        this.tipo = tipoC.MONSTRO;
+//        this.tipo = tipoC.MONSTRO;
     }
     
     public CartaMonstro(String nome, String efeito, int ataque, int defesa) {
-        this.nome = nome;
-        this.tipo = tipoC.MONSTRO;
-        this.efeito = efeito;
+        this.setNome(nome);
+        this.setEfeito(efeito);
+  //      this.tipo = tipoC.MONSTRO;
         this.ataque = ataque;
         this.defesa = defesa;
     }

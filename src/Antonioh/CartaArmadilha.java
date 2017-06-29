@@ -1,24 +1,26 @@
 package Antonioh;
 
+import java.io.Serializable;
+
 /**
  *
  * @author savio
  */
-public class CartaArmadilha extends Carta{
+public class CartaArmadilha extends Carta implements Serializable{
     
     public CartaArmadilha() {
-        this.tipo = tipoC.ARMADILHA;
+//        this.tipo = tipoC.ARMADILHA;
     }
     
     public CartaArmadilha(String nome, String efeito, int especialidade) {
-        this.nome = nome;
+        this.setNome(nome);
+        this.setEfeito(efeito);
         this.tipo = tipoC.ARMADILHA;
-        this.efeito = efeito;
         this.especialidade = especialidade;
     }
     private int especialidade;
-    /*enum propriedade{NORMAL, CONTINUO, RESPOSTA};
-    propriedade propriedade;
+    public enum propriedade{NORMAL, CONTINUO, RESPOSTA};
+    private propriedade propriedade;
 
     public propriedade getPropriedade() {
         return propriedade;
@@ -26,7 +28,7 @@ public class CartaArmadilha extends Carta{
 
     public void setPropriedade(propriedade propriedade) {
         this.propriedade = propriedade;
-    }*/
+    }
 
     public int getEspecialidade() {
         return especialidade;

@@ -82,7 +82,7 @@ public class Modelo extends javax.swing.JFrame {
         String cartaATK = JOptionPane.showInputDialog("Escolha uma carta para atacar um monstro");
         
         JOptionPane.showMessageDialog(rootPane, "Tamanho: "+(m.size()+am.size()+ar.size()));
-        JOptionPane.showMessageDialog(rootPane, ((CartaMonstro) m.get(cartaATK)).nome);
+        JOptionPane.showMessageDialog(rootPane, ((CartaMonstro) m.get(cartaATK)).getNome());
         String atacadoL = JOptionPane.showInputDialog("Escolha o monstro para ser atacada");
         CartaMonstro atacado = (CartaMonstro) m.get(atacadoL);
         
@@ -90,7 +90,7 @@ public class Modelo extends javax.swing.JFrame {
         //Monstros atacando
         //Se carta armadilha nao for ativada
         if(!efeitoArmadilha((Carta)m.get(cartaATK), cartaATK)){
-            if(atacado.atk){
+            if(atacado.isAtk()){
                 if ( atacado.getAtaque() > ((CartaMonstro) m.get(cartaATK)).getAtaque() ){
                     aux = (Carta) m.get(cartaATK);
                     m.remove(cartaATK);
