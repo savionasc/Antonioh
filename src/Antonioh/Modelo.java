@@ -1,11 +1,19 @@
 package Antonioh;
 
 import java.awt.Image;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -15,13 +23,95 @@ import javax.swing.JOptionPane;
  * @author savio
  */
 public class Modelo extends javax.swing.JFrame {
+    
+    private class Tupla{
+        String botao;
+        Carta nome;
+    }
+    
     List<Carta> cemiterio = new ArrayList<>();
     HashMap m = new HashMap();
     HashMap am = new HashMap();
     HashMap ar = new HashMap();
-    public Modelo() {
-        //initComponents();
+    public Modelo() throws IOException, ClassNotFoundException {
+        initComponents();
         
+        Socket socket1;
+        int portNumber = 1777;
+        String str;
+        ObjectInputStream ois = null;
+        ObjectOutputStream oos = null;
+        
+        try {//InetAddress.getLocalHost()
+            socket1 = new Socket(InetAddress.getLoopbackAddress(), portNumber);
+            ois = new ObjectInputStream(socket1.getInputStream());
+            oos = new ObjectOutputStream(socket1.getOutputStream());
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //Recebendo o numero do player (1 ou 2)
+        int vez = (int) ois.readObject();
+        System.out.println("Player "+vez);
+        try {
+            //Numero referente ao deck
+            oos.writeObject(JOptionPane.showInputDialog("Digite um numero referente ao Deck")); //2 por exemplo
+        } catch (IOException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //Esperando as cartas
+        System.out.println("Antonioh.Cliente.main()");
+        //numero de cartas
+        int numCartas = 0;
+        try {
+            numCartas = (int) ois.readObject();
+        } catch (IOException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("numero de cartas da mao "+numCartas);
+        
+        //Recebendo as cartas da mao
+        String botoesCartas[] = { "play1_1", "play1_2", "play1_3", "play1_4", "play1_5" };
+        List<Tupla> lista = new ArrayList<>();
+        
+        //List<Carta> cartas = new ArrayList<>();
+
+        System.out.println("Cartas da mao: ");
+        //Car c = (Car) ois.readObject();
+        //System.out.println("marca: "+c.getMarca());
+        for (int i = 0; i < numCartas; i++) {
+            Carta ca = null;
+                try {
+                    ca = (Carta) ois.readObject();
+                    Tupla t = new Tupla();
+                    t.botao = botoesCartas[i];
+                    t.nome = ca;
+                    lista.add(t);
+                    
+                    if(i == 0){
+                        play1_1.setIcon(new javax.swing.ImageIcon(ca.getImagem())); // NOI18N
+                    }else if(i == 1){
+                        play1_2.setIcon(new javax.swing.ImageIcon(ca.getImagem())); // NOI18N
+                    }else if(i == 2){
+                        play1_3.setIcon(new javax.swing.ImageIcon(ca.getImagem())); // NOI18N
+                    }else if(i == 3){
+                        play1_4.setIcon(new javax.swing.ImageIcon(ca.getImagem())); // NOI18N
+                    }else if(i == 4){
+                        play1_5.setIcon(new javax.swing.ImageIcon(ca.getImagem())); // NOI18N
+                    }
+                    oos.writeObject("Deu bom");
+                } catch (IOException ex) {
+                    System.out.println("deu ruim, escutar novamente");
+                    oos.writeObject("Deu ruim");
+                }            
+            System.out.println("Carta: "+ca.getNome());
+        }
+        
+        
+        /*
         int fase = 0;
 
         //Cartas magicas
@@ -193,7 +283,7 @@ public class Modelo extends javax.swing.JFrame {
         System.out.println("Cartas do cemiterio: "+cemiterio.size());
         for (int j = 0; j < cemiterio.size(); j++) {
             System.out.println("i: " + ((Carta)cemiterio.get(j)).getNome());
-        }
+        }*/
     }
 
     @SuppressWarnings("unchecked")
@@ -210,7 +300,7 @@ public class Modelo extends javax.swing.JFrame {
         jButton14 = new javax.swing.JButton();
         jButton15 = new javax.swing.JButton();
         jButton16 = new javax.swing.JButton();
-        jButton21 = new javax.swing.JButton();
+        play1_1 = new javax.swing.JButton();
         jButton22 = new javax.swing.JButton();
         jButton23 = new javax.swing.JButton();
         jButton24 = new javax.swing.JButton();
@@ -221,10 +311,10 @@ public class Modelo extends javax.swing.JFrame {
         jButton29 = new javax.swing.JButton();
         jButton30 = new javax.swing.JButton();
         jButton31 = new javax.swing.JButton();
-        jButton32 = new javax.swing.JButton();
-        jButton35 = new javax.swing.JButton();
-        jButton36 = new javax.swing.JButton();
-        jButton37 = new javax.swing.JButton();
+        play1_4 = new javax.swing.JButton();
+        play1_5 = new javax.swing.JButton();
+        play1_3 = new javax.swing.JButton();
+        play1_2 = new javax.swing.JButton();
         jButton33 = new javax.swing.JButton();
         jButton38 = new javax.swing.JButton();
         jButton39 = new javax.swing.JButton();
@@ -248,54 +338,54 @@ public class Modelo extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton21.setIcon(new javax.swing.ImageIcon("C:\\Users\\savio\\Desktop\\Cards\\200x295\\1624300-fairyguardian.jpg")); // NOI18N
-        jButton21.setText("jButton1");
-        jButton21.addMouseListener(new java.awt.event.MouseAdapter() {
+        play1_1.setIcon(new javax.swing.ImageIcon("C:\\Users\\savio\\Desktop\\Cards\\200x295\\1624300-fairyguardian.jpg")); // NOI18N
+        play1_1.setText("jButton1");
+        play1_1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton21MouseClicked(evt);
+                play1_1MouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton21MouseEntered(evt);
+                play1_1MouseEntered(evt);
             }
         });
 
-        jButton32.setIcon(new javax.swing.ImageIcon("C:\\Users\\savio\\Desktop\\Cards\\200x295\\1624301-fairymeteorcrush.jpg")); // NOI18N
-        jButton32.addMouseListener(new java.awt.event.MouseAdapter() {
+        play1_4.setIcon(new javax.swing.ImageIcon("C:\\Users\\savio\\Desktop\\Cards\\200x295\\1624301-fairymeteorcrush.jpg")); // NOI18N
+        play1_4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton32MouseClicked(evt);
+                play1_4MouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton32MouseEntered(evt);
+                play1_4MouseEntered(evt);
             }
         });
 
-        jButton35.setIcon(new javax.swing.ImageIcon("C:\\Users\\savio\\Desktop\\Cards\\200x295\\1624298-expressroid.jpg")); // NOI18N
-        jButton35.addMouseListener(new java.awt.event.MouseAdapter() {
+        play1_5.setIcon(new javax.swing.ImageIcon("C:\\Users\\savio\\Desktop\\Cards\\200x295\\1624298-expressroid.jpg")); // NOI18N
+        play1_5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton35MouseClicked(evt);
+                play1_5MouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton35MouseEntered(evt);
+                play1_5MouseEntered(evt);
             }
         });
 
-        jButton36.setIcon(new javax.swing.ImageIcon("C:\\Users\\savio\\Desktop\\Cards\\200x295\\Mensageiro_da_Paz.jpg")); // NOI18N
-        jButton36.addMouseListener(new java.awt.event.MouseAdapter() {
+        play1_3.setIcon(new javax.swing.ImageIcon("C:\\Users\\savio\\Desktop\\Cards\\200x295\\Mensageiro_da_Paz.jpg")); // NOI18N
+        play1_3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton36MouseClicked(evt);
+                play1_3MouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton36MouseEntered(evt);
+                play1_3MouseEntered(evt);
             }
         });
 
-        jButton37.setIcon(new javax.swing.ImageIcon("C:\\Users\\savio\\Desktop\\Cards\\200x295\\1624306-falchionb.jpg")); // NOI18N
-        jButton37.addMouseListener(new java.awt.event.MouseAdapter() {
+        play1_2.setIcon(new javax.swing.ImageIcon("C:\\Users\\savio\\Desktop\\Cards\\200x295\\1624306-falchionb.jpg")); // NOI18N
+        play1_2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton37MouseClicked(evt);
+                play1_2MouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton37MouseEntered(evt);
+                play1_2MouseEntered(evt);
             }
         });
 
@@ -413,7 +503,7 @@ public class Modelo extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton27, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton21, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(play1_1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -429,25 +519,25 @@ public class Modelo extends javax.swing.JFrame {
                                     .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(10, 10, 10)
-                                        .addComponent(jButton37, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(play1_2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jButton29, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(10, 10, 10)
-                                        .addComponent(jButton36, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(play1_3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(10, 10, 10)
-                                        .addComponent(jButton32, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(play1_4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jButton31, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(10, 10, 10)
-                                        .addComponent(jButton35, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                        .addComponent(play1_5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -574,12 +664,12 @@ public class Modelo extends javax.swing.JFrame {
                             .addComponent(jLabel5))
                         .addGap(99, 99, 99)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton35, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(play1_5, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton37, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton32, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton36, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(play1_2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(play1_1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(play1_4, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(play1_3, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(30, 30, 30)
@@ -613,9 +703,9 @@ public class Modelo extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton21MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton21MouseEntered
+    private void play1_1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play1_1MouseEntered
         // TODO add your handling code here:
-        ImageIcon aux = (ImageIcon) jButton21.getIcon();
+        ImageIcon aux = (ImageIcon) play1_1.getIcon();
         Image img = aux.getImage();
         Image newimg;
         newimg = img.getScaledInstance(200, 295, Image.SCALE_SMOOTH);
@@ -623,11 +713,11 @@ public class Modelo extends javax.swing.JFrame {
         jButton1.setIcon(icon);
         String texto = "Carta\nSem descrição.";
         jTextArea1.setText(quebraLinha(texto));
-    }//GEN-LAST:event_jButton21MouseEntered
+    }//GEN-LAST:event_play1_1MouseEntered
 
-    private void jButton32MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton32MouseEntered
+    private void play1_4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play1_4MouseEntered
         // TODO add your handling code here:
-        ImageIcon aux = (ImageIcon) jButton32.getIcon();
+        ImageIcon aux = (ImageIcon) play1_4.getIcon();
         Image img = aux.getImage();
         Image newimg;
         newimg = img.getScaledInstance(200, 295, Image.SCALE_SMOOTH);
@@ -635,11 +725,11 @@ public class Modelo extends javax.swing.JFrame {
         jButton1.setIcon(icon);
         String texto = "Carta\nSem descrição.";
         jTextArea1.setText(quebraLinha(texto));
-    }//GEN-LAST:event_jButton32MouseEntered
+    }//GEN-LAST:event_play1_4MouseEntered
 
-    private void jButton35MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton35MouseEntered
+    private void play1_5MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play1_5MouseEntered
         // TODO add your handling code here:
-        ImageIcon aux = (ImageIcon) jButton35.getIcon();
+        ImageIcon aux = (ImageIcon) play1_5.getIcon();
         Image img = aux.getImage();
         Image newimg;
         newimg = img.getScaledInstance(200, 295, Image.SCALE_SMOOTH);
@@ -647,11 +737,11 @@ public class Modelo extends javax.swing.JFrame {
         jButton1.setIcon(icon);
         String texto = "Carta\nSem descrição.";
         jTextArea1.setText(quebraLinha(texto));
-    }//GEN-LAST:event_jButton35MouseEntered
+    }//GEN-LAST:event_play1_5MouseEntered
 
-    private void jButton36MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton36MouseEntered
+    private void play1_3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play1_3MouseEntered
         // TODO add your handling code here:
-        ImageIcon aux = (ImageIcon) jButton36.getIcon();
+        ImageIcon aux = (ImageIcon) play1_3.getIcon();
         Image img = aux.getImage();
         Image newimg;
         newimg = img.getScaledInstance(200, 295, Image.SCALE_SMOOTH);
@@ -659,11 +749,11 @@ public class Modelo extends javax.swing.JFrame {
         jButton1.setIcon(icon);
         String texto = "Carta\nSem descrição.";
         jTextArea1.setText(quebraLinha(texto));
-    }//GEN-LAST:event_jButton36MouseEntered
+    }//GEN-LAST:event_play1_3MouseEntered
 
-    private void jButton37MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton37MouseEntered
+    private void play1_2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play1_2MouseEntered
         // TODO add your handling code here:
-        ImageIcon aux = (ImageIcon) jButton37.getIcon();
+        ImageIcon aux = (ImageIcon) play1_2.getIcon();
         Image img = aux.getImage();
         Image newimg;
         newimg = img.getScaledInstance(200, 295, Image.SCALE_SMOOTH);
@@ -671,7 +761,7 @@ public class Modelo extends javax.swing.JFrame {
         jButton1.setIcon(icon);
         String texto = "Carta\nSem descrição.";
         jTextArea1.setText(quebraLinha(texto));
-    }//GEN-LAST:event_jButton37MouseEntered
+    }//GEN-LAST:event_play1_2MouseEntered
 
     private void jButton33MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton33MouseEntered
         ImageIcon aux = (ImageIcon) jButton33.getIcon();
@@ -822,70 +912,70 @@ public class Modelo extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton40MouseClicked
 
-    private void jButton21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton21MouseClicked
+    private void play1_1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play1_1MouseClicked
         // TODO add your handling code here:
-        ImageIcon aux = (ImageIcon) jButton21.getIcon();
+        ImageIcon aux = (ImageIcon) play1_1.getIcon();
         Image img = aux.getImage();
         Image newimg;
         newimg = img.getScaledInstance(105, 128, Image.SCALE_SMOOTH);
         Icon icon = new ImageIcon(newimg);
         jButton26.setIcon(icon);
         
-        jButton21.setIcon(RetirarCarta("Back-TF-EN-VG.png"));
+        play1_1.setIcon(RetirarCarta("Back-TF-EN-VG.png"));
 
-    }//GEN-LAST:event_jButton21MouseClicked
+    }//GEN-LAST:event_play1_1MouseClicked
 
-    private void jButton37MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton37MouseClicked
+    private void play1_2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play1_2MouseClicked
         // TODO add your handling code here:
-        ImageIcon aux = (ImageIcon) jButton37.getIcon();
+        ImageIcon aux = (ImageIcon) play1_2.getIcon();
         Image img = aux.getImage();
         Image newimg;
         newimg = img.getScaledInstance(105, 128, Image.SCALE_SMOOTH);
         Icon icon = new ImageIcon(newimg);
         jButton25.setIcon(icon);
         
-        jButton37.setIcon(RetirarCarta("Back-TF-EN-VG.png"));
+        play1_2.setIcon(RetirarCarta("Back-TF-EN-VG.png"));
 
-    }//GEN-LAST:event_jButton37MouseClicked
+    }//GEN-LAST:event_play1_2MouseClicked
 
-    private void jButton32MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton32MouseClicked
+    private void play1_4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play1_4MouseClicked
         // TODO add your handling code here:
-        ImageIcon aux = (ImageIcon) jButton32.getIcon();
+        ImageIcon aux = (ImageIcon) play1_4.getIcon();
         Image img = aux.getImage();
         Image newimg;
         newimg = img.getScaledInstance(105, 128, Image.SCALE_SMOOTH);
         Icon icon = new ImageIcon(newimg);
         jButton30.setIcon(icon);
         
-        jButton32.setIcon(RetirarCarta("Back-TF-EN-VG.png"));
+        play1_4.setIcon(RetirarCarta("Back-TF-EN-VG.png"));
 
-    }//GEN-LAST:event_jButton32MouseClicked
+    }//GEN-LAST:event_play1_4MouseClicked
 
-    private void jButton35MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton35MouseClicked
+    private void play1_5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play1_5MouseClicked
         // TODO add your handling code here:
-        ImageIcon aux = (ImageIcon) jButton35.getIcon();
+        ImageIcon aux = (ImageIcon) play1_5.getIcon();
         Image img = aux.getImage();
         Image newimg;
         newimg = img.getScaledInstance(105, 128, Image.SCALE_SMOOTH);
         Icon icon = new ImageIcon(newimg);
         jButton22.setIcon(icon);
         
-        jButton35.setIcon(RetirarCarta("Back-TF-EN-VG.png"));
+        play1_5.setIcon(RetirarCarta("Back-TF-EN-VG.png"));
 
-    }//GEN-LAST:event_jButton35MouseClicked
+    }//GEN-LAST:event_play1_5MouseClicked
 
-    private void jButton36MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton36MouseClicked
+    private void play1_3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play1_3MouseClicked
         // TODO add your handling code here:
-        ImageIcon aux = (ImageIcon) jButton36.getIcon();
+        ImageIcon aux = (ImageIcon) play1_3.getIcon();
         Image img = aux.getImage();
         Image newimg;
         newimg = img.getScaledInstance(105, 128, Image.SCALE_SMOOTH);
         Icon icon = new ImageIcon(newimg);
         jButton29.setIcon(icon);
         
-        jButton36.setIcon(RetirarCarta("Back-TF-EN-VG.png"));
+        play1_3.setIcon(RetirarCarta("Back-TF-EN-VG.png"));
 
-    }//GEN-LAST:event_jButton36MouseClicked
+    }//GEN-LAST:event_play1_3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -918,7 +1008,13 @@ public class Modelo extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Modelo().setVisible(true);
+                try {
+                    new Modelo().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -933,7 +1029,6 @@ public class Modelo extends javax.swing.JFrame {
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton24;
@@ -945,12 +1040,8 @@ public class Modelo extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton30;
     private javax.swing.JButton jButton31;
-    private javax.swing.JButton jButton32;
     private javax.swing.JButton jButton33;
     private javax.swing.JButton jButton34;
-    private javax.swing.JButton jButton35;
-    private javax.swing.JButton jButton36;
-    private javax.swing.JButton jButton37;
     private javax.swing.JButton jButton38;
     private javax.swing.JButton jButton39;
     private javax.swing.JButton jButton4;
@@ -969,6 +1060,11 @@ public class Modelo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JButton play1_1;
+    private javax.swing.JButton play1_2;
+    private javax.swing.JButton play1_3;
+    private javax.swing.JButton play1_4;
+    private javax.swing.JButton play1_5;
     // End of variables declaration//GEN-END:variables
     String quebraLinha(String texto) {
         if (texto.length() > 47) {

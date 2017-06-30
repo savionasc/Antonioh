@@ -13,6 +13,7 @@ public class Carta implements Serializable {
     protected enum tipoC{MONSTRO, MAGICA, ARMADILHA};
     protected tipoC tipo;
     private String efeito;
+    private String imagem;
     
     public String getNome() {
         return nome;
@@ -44,5 +45,13 @@ public class Carta implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
     }
 }

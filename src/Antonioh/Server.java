@@ -31,10 +31,15 @@ public class Server {
         oos1.writeObject(5);
         
         CartaMonstro magoNegro = new CartaMonstro("Mago Negro", "", 2500, 2100);
+        magoNegro.setImagem("C:\\Users\\savio\\Desktop\\Cards\\200x295\\5138517_t.jpg");
         CartaMonstro dragaoBranco = new CartaMonstro("Dragão Branco", "", 3000, 2500);
+        dragaoBranco.setImagem("C:\\Users\\savio\\Desktop\\Cards\\200x295\\Dragão_branco_de_olhos_azuis.jpg");
         CartaMonstro obelisk = new CartaMonstro("Obelisk", "", 4000, 4000);
+        obelisk.setImagem("C:\\Users\\savio\\Desktop\\Cards\\200x295\\obilesk.jpg");
         CartaMagica raigeki = new CartaMagica("Raigeki", "", 1, 1);
+        raigeki.setImagem("C:\\Users\\savio\\Desktop\\Cards\\200x295\\Redimencionar\\LegendarySword-LOB-NA-SP-UE-Reprint.png");
         CartaMagica lendarySword = new CartaMagica("Lendary Sword", "", 3, 300);
+        lendarySword.setImagem("C:\\Users\\savio\\Desktop\\Cards\\200x295\\Untitled design.jpg");
         List<Carta> cartasMaoP1 = new ArrayList<>();
         cartasMaoP1.add(magoNegro);
         cartasMaoP1.add(dragaoBranco);
