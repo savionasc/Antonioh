@@ -23,8 +23,8 @@ public class Cliente {
         String str;
         ObjectInputStream ois = null;
         ObjectOutputStream oos = null;
-        try {
-            socket1 = new Socket(InetAddress.getLocalHost(), portNumber);
+        try {//InetAddress.getLocalHost()
+            socket1 = new Socket(InetAddress.getLoopbackAddress(), portNumber);
             ois = new ObjectInputStream(socket1.getInputStream());
             oos = new ObjectOutputStream(socket1.getOutputStream());
         } catch (UnknownHostException ex) {
