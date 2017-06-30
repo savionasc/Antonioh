@@ -1,6 +1,5 @@
 package Antonioh;
 
-import company.Car;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -64,6 +64,7 @@ public class Cliente {
             while (exep != 1) {
                 try {
                     ca = (Carta) ois.readObject();
+                    cartas.add(ca);
                     oos.writeObject("Deu bom");
                     exep = 1;
                 } catch (IOException ex) {
@@ -73,9 +74,15 @@ public class Cliente {
             }
             System.out.println("Carta: "+ca.getNome());
         }
-        //ois.close();
-        //oos.close();
-        //socket1.close();
+        str = JOptionPane.showInputDialog("Digite o nome da carta que você quer usar");
+        if(str.equals("1")){
+            for (Carta carta : cartas) {
+                if(carta.getNome().equals("Mago Negro")){
+                    oos.writeObject(carta);                    
+                }
+            }
+        }
+        System.out.println(str);
 
     }
 }

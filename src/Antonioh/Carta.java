@@ -7,11 +7,13 @@ import java.io.Serializable;
  * @author savio
  */
 public class Carta implements Serializable {
+    
+    public String id;
     private String nome;
     protected enum tipoC{MONSTRO, MAGICA, ARMADILHA};
     protected tipoC tipo;
-    private String efeito;    
-
+    private String efeito;
+    
     public String getNome() {
         return nome;
     }
@@ -34,5 +36,13 @@ public class Carta implements Serializable {
 
     public void setEfeito(String efeito) {
         this.efeito = efeito;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
