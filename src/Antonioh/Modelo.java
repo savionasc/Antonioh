@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
  * @author savio
  */
 public class Modelo extends javax.swing.JFrame {
-
     List<Carta> cemiterio = new ArrayList<>();
     HashMap m = new HashMap();
     HashMap am = new HashMap();

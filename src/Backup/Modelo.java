@@ -1,5 +1,6 @@
-package Antonioh;
+package Backup;
 
+import Antonioh.*;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,13 +15,12 @@ import javax.swing.JOptionPane;
  *
  * @author savio
  */
-public class ModeloBackup extends javax.swing.JFrame {
-
+public class Modelo extends javax.swing.JFrame {
     List<Carta> cemiterio = new ArrayList<>();
     HashMap m = new HashMap();
     HashMap am = new HashMap();
     HashMap ar = new HashMap();
-    public ModeloBackup() {
+    public Modelo() {
         //initComponents();
         
         int fase = 0;
@@ -905,13 +905,13 @@ public class ModeloBackup extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ModeloBackup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Modelo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ModeloBackup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Modelo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ModeloBackup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Modelo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ModeloBackup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Modelo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -921,7 +921,7 @@ public class ModeloBackup extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ModeloBackup().setVisible(true);
+                new Modelo().setVisible(true);
             }
         });
     }
