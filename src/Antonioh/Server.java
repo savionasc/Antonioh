@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -40,15 +41,15 @@ public class Server {
         raigeki.setImagem("C:\\Users\\savio\\Desktop\\Cards\\200x295\\Redimencionar\\LegendarySword-LOB-NA-SP-UE-Reprint.png");
         CartaMagica lendarySword = new CartaMagica("Lendary Sword", "", 3, 300);
         lendarySword.setImagem("C:\\Users\\savio\\Desktop\\Cards\\200x295\\Untitled design.jpg");
-        List<Carta> cartasMaoP1 = new ArrayList<>();
-        cartasMaoP1.add(magoNegro);
-        cartasMaoP1.add(dragaoBranco);
-        cartasMaoP1.add(obelisk);
-        cartasMaoP1.add(raigeki);
-        cartasMaoP1.add(lendarySword);
+        List<Carta> cartas = new ArrayList<>();
+        cartas.add(magoNegro);
+        cartas.add(dragaoBranco);
+        cartas.add(obelisk);
+        cartas.add(raigeki);
+        cartas.add(lendarySword);
         
         try {
-            for (Carta carta : cartasMaoP1) {
+            for (Carta carta : cartas) {
                 oos1.writeObject(carta);
                 if((ois1.readObject().toString()).equals("Deu ruim")){
                     System.out.println("Enviando novamente");
@@ -59,6 +60,10 @@ public class Server {
             }
         } catch (Exception e) {
         }
+        
+        cartas = null;
+        HashMap cartasMaoP1 = new HashMap();
+        
         //oos1.writeObject(magoNegro);
         /*oos1.writeObject(magoNegro);
         if((ois1.readObject().toString()).equals("Deu ruim")){
@@ -92,5 +97,4 @@ public class Server {
         System.out.println("Aguardando carta para invocar");
         System.out.println(((Carta) ois1.readObject()).getNome());
     }
-    
 }

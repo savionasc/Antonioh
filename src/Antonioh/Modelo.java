@@ -9,9 +9,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
@@ -23,19 +21,16 @@ import javax.swing.JOptionPane;
  * @author savio
  */
 public class Modelo extends javax.swing.JFrame {
-    
-    private class Tupla{
-        String botao;
-        Carta nome;
-    }
-    
+        
     List<Carta> cemiterio = new ArrayList<>();
     HashMap m = new HashMap();
     HashMap am = new HashMap();
     HashMap ar = new HashMap();
+    HashMap cards = new HashMap();
+    //List<Tupla> lista = new ArrayList<>();
     public Modelo() throws IOException, ClassNotFoundException {
         initComponents();
-        
+        //JOptionPane.showMessageDialog(null, play1_1.getText());
         Socket socket1;
         int portNumber = 1777;
         String str;
@@ -75,21 +70,17 @@ public class Modelo extends javax.swing.JFrame {
         
         //Recebendo as cartas da mao
         String botoesCartas[] = { "play1_1", "play1_2", "play1_3", "play1_4", "play1_5" };
-        List<Tupla> lista = new ArrayList<>();
         
         //List<Carta> cartas = new ArrayList<>();
 
         System.out.println("Cartas da mao: ");
-        //Car c = (Car) ois.readObject();
-        //System.out.println("marca: "+c.getMarca());
         for (int i = 0; i < numCartas; i++) {
             Carta ca = null;
                 try {
                     ca = (Carta) ois.readObject();
-                    Tupla t = new Tupla();
-                    t.botao = botoesCartas[i];
-                    t.nome = ca;
-                    lista.add(t);
+                    Tupla t = new Tupla(botoesCartas[i], ca);
+                    oos.writeObject(t);
+                    cards.put(botoesCartas[i], t);
                     
                     if(i == 0){
                         play1_1.setIcon(new javax.swing.ImageIcon(ca.getImagem())); // NOI18N
@@ -107,9 +98,8 @@ public class Modelo extends javax.swing.JFrame {
                     System.out.println("deu ruim, escutar novamente");
                     oos.writeObject("Deu ruim");
                 }            
-            System.out.println("Carta: "+ca.getNome());
+            //System.out.println("Carta: "+ca.getNome());
         }
-        
         
         /*
         int fase = 0;
@@ -339,7 +329,7 @@ public class Modelo extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         play1_1.setIcon(new javax.swing.ImageIcon("C:\\Users\\savio\\Desktop\\Cards\\200x295\\1624300-fairyguardian.jpg")); // NOI18N
-        play1_1.setText("jButton1");
+        play1_1.setText("play1_1");
         play1_1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 play1_1MouseClicked(evt);
@@ -350,6 +340,7 @@ public class Modelo extends javax.swing.JFrame {
         });
 
         play1_4.setIcon(new javax.swing.ImageIcon("C:\\Users\\savio\\Desktop\\Cards\\200x295\\1624301-fairymeteorcrush.jpg")); // NOI18N
+        play1_4.setText("play1_4");
         play1_4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 play1_4MouseClicked(evt);
@@ -360,6 +351,7 @@ public class Modelo extends javax.swing.JFrame {
         });
 
         play1_5.setIcon(new javax.swing.ImageIcon("C:\\Users\\savio\\Desktop\\Cards\\200x295\\1624298-expressroid.jpg")); // NOI18N
+        play1_5.setText("play1_5");
         play1_5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 play1_5MouseClicked(evt);
@@ -370,6 +362,7 @@ public class Modelo extends javax.swing.JFrame {
         });
 
         play1_3.setIcon(new javax.swing.ImageIcon("C:\\Users\\savio\\Desktop\\Cards\\200x295\\Mensageiro_da_Paz.jpg")); // NOI18N
+        play1_3.setText("play1_3");
         play1_3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 play1_3MouseClicked(evt);
@@ -380,6 +373,7 @@ public class Modelo extends javax.swing.JFrame {
         });
 
         play1_2.setIcon(new javax.swing.ImageIcon("C:\\Users\\savio\\Desktop\\Cards\\200x295\\1624306-falchionb.jpg")); // NOI18N
+        play1_2.setText("play1_2");
         play1_2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 play1_2MouseClicked(evt);
@@ -914,6 +908,8 @@ public class Modelo extends javax.swing.JFrame {
 
     private void play1_1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play1_1MouseClicked
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(rootPane, play1_1.getText());
+        JOptionPane.showMessageDialog(rootPane, ((Tupla) cards.get(play1_1.getText())).getCarta().getNome());
         ImageIcon aux = (ImageIcon) play1_1.getIcon();
         Image img = aux.getImage();
         Image newimg;

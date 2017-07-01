@@ -308,7 +308,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="2" name="C:\Users\savio\Desktop\Cards\200x295\1624300-fairyguardian.jpg"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="jButton1"/>
+        <Property name="text" type="java.lang.String" value="play1_1"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="play1_1MouseClicked"/>
@@ -340,6 +340,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="2" name="C:\Users\savio\Desktop\Cards\200x295\1624301-fairymeteorcrush.jpg"/>
         </Property>
+        <Property name="text" type="java.lang.String" value="play1_4"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="play1_4MouseClicked"/>
@@ -351,6 +352,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="2" name="C:\Users\savio\Desktop\Cards\200x295\1624298-expressroid.jpg"/>
         </Property>
+        <Property name="text" type="java.lang.String" value="play1_5"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="play1_5MouseClicked"/>
@@ -362,6 +364,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="2" name="C:\Users\savio\Desktop\Cards\200x295\Mensageiro_da_Paz.jpg"/>
         </Property>
+        <Property name="text" type="java.lang.String" value="play1_3"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="play1_3MouseClicked"/>
@@ -373,6 +376,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="2" name="C:\Users\savio\Desktop\Cards\200x295\1624306-falchionb.jpg"/>
         </Property>
+        <Property name="text" type="java.lang.String" value="play1_2"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="play1_2MouseClicked"/>
